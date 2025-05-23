@@ -7,20 +7,15 @@ import (
 	"net/http"
 	"url-shortener/internal/lib/api/response"
 	"url-shortener/internal/lib/logger/sl"
-	"url-shortener/internal/lib/utils"
 	"url-shortener/internal/storage"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
 )
 
 type URLDeleter interface {
 	DeleteURL(alias string) error
-	GetURL(alias string) (string, error)
-}
-
-type Request struct {
-	Alias string `json:"alias" validate:"required"`
 }
 
 func New(log *slog.Logger, urlDeleter URLDeleter) http.HandlerFunc {
@@ -31,27 +26,15 @@ func New(log *slog.Logger, urlDeleter URLDeleter) http.HandlerFunc {
 			slog.String("request_id", middleware.GetReqID(r.Context())),
 		)
 
-		var req Request
+		var alias = chi.URLParam(r, "alias")
 
-		if err := render.DecodeJSON(r.Body, &req); err != nil {
-			log.Info("failed to decode request body",)
-
-			render.JSON(w, r, response.Error(fmt.Sprintf("failed to decode request: %v", err)))
-
-			return
-		}
-
-		log.Info("request body decoded", slog.Any("request", req))
-
-		if err := utils.Validate.Struct(req); err != nil {
-			log.Error("invalid alias field")
-
-			render.JSON(w, r, response.Error("alias field is required"))
+		if alias == "" {
+			log.Info("empty alias for deleting")
+			
+			render.JSON(w, r, response.Error("invalid request"))		
 
 			return
 		}
-
-		alias := req.Alias
 
 		if err := urlDeleter.DeleteURL(alias); err != nil {
 			if errors.Is(err, storage.ErrURLNotFound) {
