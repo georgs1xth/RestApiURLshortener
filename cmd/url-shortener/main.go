@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"url-shortener/internal/config"
+	"url-shortener/internal/http-server/handlers/redirect"
+	deleteUrl "url-shortener/internal/http-server/handlers/url/delete"
 	"url-shortener/internal/http-server/handlers/url/save"
 	"url-shortener/internal/http-server/middleware/logger"
 	"url-shortener/internal/lib/logger/sl"
@@ -37,10 +39,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	_ = storage
-	
-	err = storage.DeleteURL("google")
-	fmt.Println(err)
+	storage.SaveURL("https://google.com", "google")
 
 
 	router := chi.NewRouter()
@@ -52,6 +51,9 @@ func main() {
 	
 
 	router.Post("/url", save.New(log, storage))
+	router.Delete("/url", deleteUrl.New(log, storage))
+	router.Get("/{alias}", redirect.New(log, storage))
+
 
 	log.Info("starting server", slog.String("address", cfg.Address))
 
