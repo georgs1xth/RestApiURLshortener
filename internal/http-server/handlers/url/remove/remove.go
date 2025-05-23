@@ -1,4 +1,4 @@
-package deleteUrl
+package remove
 
 import (
 	"errors"

@@ -8,7 +8,7 @@ import (
 	"os"
 	"url-shortener/internal/config"
 	"url-shortener/internal/http-server/handlers/redirect"
-	deleteUrl "url-shortener/internal/http-server/handlers/url/delete"
+	"url-shortener/internal/http-server/handlers/url/remove"
 	"url-shortener/internal/http-server/handlers/url/save"
 	"url-shortener/internal/http-server/middleware/logger"
 	"url-shortener/internal/lib/logger/sl"
@@ -54,7 +54,7 @@ func main() {
 			cfg.HTTPServer.User: cfg.HTTPServer.Password,
 		}))
 		r.Post("/", save.New(log, storage))
-		r.Delete("/{alias}", deleteUrl.New(log, storage))
+		r.Delete("/{alias}", remove.New(log, storage))
 	})
 
 
