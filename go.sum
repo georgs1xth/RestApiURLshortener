@@ -2,6 +2,8 @@ github.com/BurntSushi/toml v1.2.1 h1:9F2/+DoOYIOksmaJFPw1tGFy1eDnIJXg+UHjuD8lTak
 github.com/BurntSushi/toml v1.2.1/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/GolangLessons/protos v0.1.2 h1:HeS3FJuuHEAV3qbokfx7e/dkNg27SwNB7ooo+BIb1Bs=
 github.com/GolangLessons/protos v0.1.2/go.mod h1:pYqpiLUwBdosUGozwwVnuzmduQs+jXY/MfNSA2j10o0=
+github.com/a-h/templ v0.3.865 h1:nYn5EWm9EiXaDgWcMQaKiKvrydqgxDUtT1+4zU2C43A=
+github.com/a-h/templ v0.3.865/go.mod h1:oLBbZVQ6//Q6zpvSMPTuBK0F3qOtBdFBcGRspcT+VNQ=
 github.com/ajg/form v1.5.1 h1:t9c7v8JUKu/XxOGBU0yjNpaMloxGEJhUkqFRq0ibGeU=
 github.com/ajg/form v1.5.1/go.mod h1:uL1WgH+h2mgNtvBq0339dVnzXdBETtL2LeUXaIv25UY=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=

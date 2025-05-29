@@ -9,6 +9,7 @@ import (
 	"os"
 	ssogrpc "url-shortener/internal/clients/sso/grpc"
 	"url-shortener/internal/config"
+	"url-shortener/internal/http-server/handlers/pages/landing"
 	"url-shortener/internal/http-server/handlers/redirect"
 	"url-shortener/internal/http-server/handlers/url/remove"
 	"url-shortener/internal/http-server/handlers/url/save"
@@ -36,6 +37,8 @@ func main() {
 	
 	log.Debug("debug message are enabled")
 
+
+
 	ssoClient, err := ssogrpc.New(
 		context.Background(),
 		log,
@@ -49,7 +52,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	ssoClient.IsAdmin(context.Background(), 1)
+	isAdmin, err := ssoClient.IsAdmin(context.Background(), 1)
+	log.Info("isAdmin is enabled", "admin", isAdmin)
 
 	storage, err := sqlite.New(cfg.StoragePath)
 	if err != nil {
@@ -71,8 +75,14 @@ func main() {
 		r.Post("/", save.New(log, storage))
 		r.Delete("/{alias}", remove.New(log, storage))
 	})
+	router.Get("/s/{alias}", redirect.New(log, storage))
 
-	router.Get("/{alias}", redirect.New(log, storage))
+
+
+	router.Route("/", func(r chi.Router) {
+		r.Get("/", landing.New(log))
+	})
+
 
 	log.Info("starting server", slog.String("address", cfg.Address))
 
