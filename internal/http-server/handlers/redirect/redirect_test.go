@@ -14,16 +14,16 @@ import (
 
 func TestRedirectHandler(t *testing.T) {
 	cases := []struct {
-		name string
+		name      string
 		alias     string
 		url       string
 		respError string
 		mockError error
 	}{
 		{
-			name: "Success",
+			name:  "Success",
 			alias: "test_alias",
-			url: "https://gooogle.com",
+			url:   "https://gooogle.com",
 		},
 	}
 
@@ -40,7 +40,7 @@ func TestRedirectHandler(t *testing.T) {
 
 			r := chi.NewRouter()
 			r.Get("/{alias}", redirect.New(slogdiscard.NewDiscardLogger(), urlGetterMock))
-			
+
 			ts := httptest.NewServer(r)
 			defer ts.Close()
 

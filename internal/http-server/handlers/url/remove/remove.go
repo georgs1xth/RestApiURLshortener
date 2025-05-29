@@ -30,8 +30,8 @@ func New(log *slog.Logger, urlDeleter URLDeleter) http.HandlerFunc {
 
 		if alias == "" {
 			log.Info("empty alias for deleting")
-			
-			render.JSON(w, r, response.Error("invalid request"))		
+
+			render.JSON(w, r, response.Error("invalid request"))
 
 			return
 		}
@@ -39,10 +39,10 @@ func New(log *slog.Logger, urlDeleter URLDeleter) http.HandlerFunc {
 		if err := urlDeleter.DeleteURL(alias); err != nil {
 			if errors.Is(err, storage.ErrURLNotFound) {
 				log.Info("the url doesn't exist", sl.Err(err))
-				
+
 				render.JSON(w, r, response.Error("the url doesn't exist"))
-				
-				return 
+
+				return
 			}
 			log.Error("error deleting url", sl.Err(err))
 

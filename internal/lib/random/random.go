@@ -9,8 +9,8 @@ func NewRandomString(length int) string {
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	chars := []rune("ABCDEFGHIGKLMNOPQRSTUVWXYZ" +
-					"abcdefghijklmnopqrstuvwxyz" +
-					"0123456789")
+		"abcdefghijklmnopqrstuvwxyz" +
+		"0123456789")
 
 	b := make([]rune, length)
 	for i := range b {

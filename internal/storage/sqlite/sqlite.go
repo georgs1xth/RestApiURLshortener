@@ -32,7 +32,7 @@ func New(storagePath string) (*Storage, error) {
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", op, err)
 	}
-	
+
 	_, err = stmt.Exec()
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", op, err)
@@ -70,12 +70,12 @@ func (s *Storage) SaveURL(urlToSave string, alias string) (int64, error) {
 
 func (s *Storage) GetURL(alias string) (string, error) {
 	const op = "storage.sqlite.GetURL"
-		
+
 	stmt, err := s.db.Prepare("SELECT url FROM url WHERE alias = ?")
 	if err != nil {
 		return "", fmt.Errorf("%s: %w", op, err)
 	}
-	
+
 	var urlAddress string
 
 	err = stmt.QueryRow(alias).Scan(&urlAddress)
@@ -107,6 +107,6 @@ func (s *Storage) DeleteURL(alias string) error {
 	}
 	if num == 0 {
 		return fmt.Errorf("%s: deleting not-existed url: %s", op, alias)
-	}	
+	}
 	return nil
 }

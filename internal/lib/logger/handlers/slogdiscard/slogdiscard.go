@@ -10,7 +10,7 @@ func NewDiscardLogger() *slog.Logger {
 
 }
 
-type DiscardHandler struct {}
+type DiscardHandler struct{}
 
 func NewDiscardHandler() *DiscardHandler {
 	return &DiscardHandler{}

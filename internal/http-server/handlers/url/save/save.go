@@ -17,7 +17,7 @@ import (
 )
 
 type Request struct {
-	URL string `json:"url" validate:"required,url"`
+	URL   string `json:"url" validate:"required,url"`
 	Alias string `json:"alias,omitempty"`
 }
 
@@ -48,22 +48,22 @@ func New(log *slog.Logger, urlSaver URLSaver) http.HandlerFunc {
 
 		err := render.DecodeJSON(r.Body, &req)
 		// err := utils.ParseJSON(r, &req)
-		
+
 		if err != nil {
 			log.Error("failed to decode request body", sl.Err(err))
 
 			render.JSON(w, r, response.Error(fmt.Sprintf("failed to decode request: %v", err)))
-			
+
 			return
 		}
-		
+
 		log.Info("request body decoded", slog.Any("request", req))
-		
+
 		if err := utils.Validate.Struct(req); err != nil {
 			errors := err.(validator.ValidationErrors)
-			
+
 			log.Error("invalid request", sl.Err(err))
-			
+
 			render.JSON(w, r, response.ErrorsMakingSense(errors))
 
 			return
@@ -79,14 +79,14 @@ func New(log *slog.Logger, urlSaver URLSaver) http.HandlerFunc {
 			log.Info("url already exists", slog.String("url", req.URL))
 
 			render.JSON(w, r, response.Error("url already exists"))
-			
+
 			return
 		}
 		if err != nil {
 			log.Error("failed to add url", sl.Err(err))
 
 			render.JSON(w, r, response.Error("failed to add url"))
-		
+
 			return
 		}
 
@@ -94,7 +94,7 @@ func New(log *slog.Logger, urlSaver URLSaver) http.HandlerFunc {
 
 		render.JSON(w, r, Response{
 			Response: response.OK(),
-			Alias: alias,
+			Alias:    alias,
 		})
 	}
 }

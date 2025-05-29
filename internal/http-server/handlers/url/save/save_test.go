@@ -18,38 +18,38 @@ import (
 
 func TestSaveHandler(t *testing.T) {
 	cases := []struct {
-		name string
+		name      string
 		alias     string
 		url       string
 		respError string
 		mockError error
 	}{
 		{
-			name: "Success",
+			name:  "Success",
 			alias: "test_alias",
-			url: "https://gooogle.com",
+			url:   "https://gooogle.com",
 		},
 		{
-			name: "Empty alias",
+			name:  "Empty alias",
 			alias: "",
-			url: "https://google.com",
+			url:   "https://google.com",
 		},
 		{
-			name: "Empty URL",
-			url: "",
-			alias: "some_alias",
+			name:      "Empty URL",
+			url:       "",
+			alias:     "some_alias",
 			respError: "field URL is a required field",
 		},
 		{
-			name: "Invalid url",
-			url: "some invalid url",
-			alias: "some_alias",
+			name:      "Invalid url",
+			url:       "some invalid url",
+			alias:     "some_alias",
 			respError: "field URL is not a valid URL",
 		},
 		{
-			name: "SaveURL Error",
-			alias: "test_alias",
-			url: "https://google.com",
+			name:      "SaveURL Error",
+			alias:     "test_alias",
+			url:       "https://google.com",
 			respError: "failed to add url",
 			mockError: errors.New("unexpected error"),
 		},
@@ -76,7 +76,7 @@ func TestSaveHandler(t *testing.T) {
 
 			rr := httptest.NewRecorder()
 			handler.ServeHTTP(rr, req)
-			
+
 			require.Equal(t, rr.Code, http.StatusOK)
 
 			body := rr.Body.String()
